@@ -7,5 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false
     });
 
+    tarjetas.associate = function (models) {
+        models.tarjetas.hasMany(models.pagos);
+    };
+
     return tarjetas;
 };

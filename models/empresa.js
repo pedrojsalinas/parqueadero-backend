@@ -14,9 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false
     });
 
-  empresa.associate = function (models) {
-      models.empresa.hasMany(models.servicios_adicionales);
-  };
+    empresa.associate = function (models) {
+        models.empresa.hasMany(models.servicios_adicionales);
+        models.empresa.hasMany(models.espacios);
+        models.empresa.hasMany(models.reservas);
+        models.empresa.hasMany(models.pagos);
+    };
 
     return empresa;
 };
