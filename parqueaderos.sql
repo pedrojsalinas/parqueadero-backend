@@ -1,31 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 14-02-2020 a las 15:02:12
--- Versión del servidor: 10.1.34-MariaDB
--- Versión de PHP: 5.6.37
+-- Host: localhost
+-- Generation Time: Feb 14, 2020 at 04:56 PM
+-- Server version: 5.6.38
+-- PHP Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
--- Base de datos: `parqueaderos`
+-- Database: `parqueaderos`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `empresas`
+-- Table structure for table `empresas`
 --
 
 CREATE TABLE `empresas` (
@@ -41,30 +33,38 @@ CREATE TABLE `empresas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
--- Volcado de datos para la tabla `empresas`
+-- Dumping data for table `empresas`
 --
 
 INSERT INTO `empresas` (`id`, `nombre`, `direccion`, `latitud`, `longitud`, `num_espacios`, `fraccion`, `precio`, `descuento`) VALUES
 (1, 'Parking Mercadillo', 'Mercadillo', '-4.017184', '-79.202588', 20, 'Por hora', 0.5, 2.5),
-(2, 'ParkeaT', 'Sucre', '-4.008707', '-79.202331', 12, 'Por cuarto de hora', 0.25, 3.5);
+(2, 'ParkeaT', 'Sucre', '-4.008707', '-79.202331', 12, 'Por cuarto de hora', 0.25, 3.5),
+(6, 'test', 'test', '123', '123123', 0, 'asdas', 12, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `espacios`
+-- Table structure for table `espacios`
 --
 
 CREATE TABLE `espacios` (
-  `id` int(10) NOT NULL,
-  `empresaId` int(10) NOT NULL,
+  `id` int(11) NOT NULL,
+  `empresaId` int(11) NOT NULL,
   `estado` int(11) NOT NULL,
   `cubierto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `espacios`
+--
+
+INSERT INTO `espacios` (`id`, `empresaId`, `estado`, `cubierto`) VALUES
+(1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pagos`
+-- Table structure for table `pagos`
 --
 
 CREATE TABLE `pagos` (
@@ -72,55 +72,55 @@ CREATE TABLE `pagos` (
   `valor` double NOT NULL,
   `empresaId` int(11) NOT NULL,
   `tarjetaId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `pagos`
+-- Dumping data for table `pagos`
 --
 
 INSERT INTO `pagos` (`id`, `valor`, `empresaId`, `tarjetaId`) VALUES
-(1, 100, 2, 1);
+(1, 122, 2, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `reservas`
+-- Table structure for table `reservas`
 --
 
 CREATE TABLE `reservas` (
   `id` int(11) NOT NULL,
-  `empresaId` int(11) NOT NULL,
   `tarjetaId` int(11) NOT NULL,
   `horaInicio` date NOT NULL,
-  `horaSalida` date NOT NULL
+  `horaSalida` date NOT NULL,
+  `empresaId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `servicios_adicionales`
+-- Table structure for table `servicios_adicionales`
 --
 
 CREATE TABLE `servicios_adicionales` (
-  `id` int(10) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `cantidad` int(11) NOT NULL,
   `precio` double NOT NULL,
-  `cantidad` int(10) NOT NULL,
-  `descuento` double DEFAULT NULL,
-  `empresaId` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `descuento` double NOT NULL,
+  `empresaId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Volcado de datos para la tabla `servicios_adicionales`
+-- Dumping data for table `servicios_adicionales`
 --
 
-INSERT INTO `servicios_adicionales` (`id`, `nombre`, `precio`, `cantidad`, `descuento`, `empresaId`) VALUES
-(0, 'Limpieza', 100, 1, 20, 1);
+INSERT INTO `servicios_adicionales` (`id`, `nombre`, `cantidad`, `precio`, `descuento`, `empresaId`) VALUES
+(2, 'Limpieza', 1, 100, 10, 6);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tarjetas`
+-- Table structure for table `tarjetas`
 --
 
 CREATE TABLE `tarjetas` (
@@ -130,7 +130,7 @@ CREATE TABLE `tarjetas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `tarjetas`
+-- Dumping data for table `tarjetas`
 --
 
 INSERT INTO `tarjetas` (`id`, `saldo`, `estado`) VALUES
@@ -140,131 +140,153 @@ INSERT INTO `tarjetas` (`id`, `saldo`, `estado`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `ip` varchar(50) NOT NULL,
-  `idTarjeta` int(11) NOT NULL
+  `tarjetaId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `ip`, `idTarjeta`) VALUES
+INSERT INTO `usuarios` (`id`, `ip`, `tarjetaId`) VALUES
 (1, '12666', 1);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `empresas`
+-- Indexes for table `empresas`
 --
 ALTER TABLE `empresas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `espacios`
+-- Indexes for table `espacios`
 --
 ALTER TABLE `espacios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `espacios_ibfk_1` (`empresaId`);
 
 --
--- Indices de la tabla `pagos`
+-- Indexes for table `pagos`
 --
 ALTER TABLE `pagos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pagos_ibfk_1` (`empresaId`),
+  ADD KEY `pagos_ibfk_2` (`tarjetaId`);
+
+--
+-- Indexes for table `reservas`
+--
+ALTER TABLE `reservas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `empresaId` (`empresaId`),
   ADD KEY `tarjetaId` (`tarjetaId`);
 
 --
--- Indices de la tabla `reservas`
---
-ALTER TABLE `reservas`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `servicios_adicionales`
+-- Indexes for table `servicios_adicionales`
 --
 ALTER TABLE `servicios_adicionales`
   ADD PRIMARY KEY (`id`),
   ADD KEY `servicios_adicionales_ibfk_1` (`empresaId`);
 
 --
--- Indices de la tabla `tarjetas`
+-- Indexes for table `tarjetas`
 --
 ALTER TABLE `tarjetas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idTarjeta` (`idTarjeta`);
+  ADD KEY `idTarjeta` (`tarjetaId`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `pagos`
+-- AUTO_INCREMENT for table `empresas`
+--
+ALTER TABLE `empresas`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `espacios`
+--
+ALTER TABLE `espacios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `reservas`
+-- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `tarjetas`
+-- AUTO_INCREMENT for table `servicios_adicionales`
+--
+ALTER TABLE `servicios_adicionales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tarjetas`
 --
 ALTER TABLE `tarjetas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `espacios`
+-- Constraints for table `espacios`
 --
 ALTER TABLE `espacios`
-  ADD CONSTRAINT `espacios_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `espacios_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `pagos`
+-- Constraints for table `pagos`
 --
 ALTER TABLE `pagos`
-  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`),
-  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`);
+  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `servicios_adicionales`
+-- Constraints for table `reservas`
+--
+ALTER TABLE `reservas`
+  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`),
+  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`);
+
+--
+-- Constraints for table `servicios_adicionales`
 --
 ALTER TABLE `servicios_adicionales`
-  ADD CONSTRAINT `servicios_adicionales_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `servicios_adicionales_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `usuarios`
+-- Constraints for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`idTarjeta`) REFERENCES `tarjetas` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`);

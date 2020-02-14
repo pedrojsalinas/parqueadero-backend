@@ -7,6 +7,7 @@ var router = express.Router();
  */
 router.get('/', function (req, res, next) {
     models.empresa.findAll({
+        include: [models.servicios_adicionales] // esta línea te permite incluir relaciones de la tabla
     }).then(function (empresas) {
         res.send({
             empresas
