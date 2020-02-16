@@ -53,5 +53,21 @@ router.get('/:servicio_id/eliminar', function (req, res) {
             res.send(err);
         })
 });
+/**
+ * Actualizar servicio
+ */
+router.put('/:servicio_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.servicio_id;
+
+    servicioDomain.actualizarServicio(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
 
 module.exports = router;

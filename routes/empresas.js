@@ -55,4 +55,21 @@ router.get('/:empresa_id/eliminar', function (req, res) {
         })
 });
 
+/**
+ * Actualizar empresa
+ */
+router.put('/:empresa_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.empresa_id;
+
+    empresaDomain.actualizarEmpresa(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+
 module.exports = router;

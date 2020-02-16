@@ -54,4 +54,21 @@ router.get('/:usuario_id/eliminar', function (req, res) {
         })
 });
 
+/**
+ * Actualizar usuario
+ */
+router.put('/:usuario_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.usuario_id;
+
+    usuarioDomain.actualizarUsuario(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+
 module.exports = router;

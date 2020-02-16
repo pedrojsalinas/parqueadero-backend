@@ -3,9 +3,9 @@ var models = require('../models');
 exports.agregarPago = function (pago) {
     return new Promise(function (resolve, reject) {
         models.pagos.create({
-               valor: pago.valor,
-               empresaId: pago.empresaId,
-               tarjetaId: pago.tarjetaId,
+                valor: pago.valor,
+                empresaId: pago.empresaId,
+                tarjetaId: pago.tarjetaId,
             }).then(res => {
                 resolve(res);
             })
@@ -44,6 +44,25 @@ exports.obtenerPagos = function () {
 exports.obtenerPago = function (id) {
     return new Promise(function (resolve, reject) {
         models.pagos.findAll({
+                where: {
+                    id
+                }
+            }).then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    });
+};
+
+exports.actualizarPago = function (id, obj) {
+    return new Promise(function (resolve, reject) {
+        models.pagos.update({
+                valor: obj.valor,
+                empresaId: obj.empresaId,
+                tarjetaId: obj.tarjetaId,
+            }, {
                 where: {
                     id
                 }

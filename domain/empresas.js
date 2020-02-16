@@ -62,3 +62,27 @@ exports.obtenerEmpresa = function (id) {
             })
     });
 };
+
+exports.actualizarEmpresa = function (id, obj) {
+    return new Promise(function (resolve, reject) {
+        models.empresa.update({
+                nombre: obj.nombre,
+                direccion: obj.direccion,
+                latitud: obj.latitud,
+                longitud: obj.longitud,
+                fraccion: obj.fraccion,
+                num_espacios: obj.num_espacios,
+                precio: obj.precio,
+                descuento: obj.descuento,
+            }, {
+                where: {
+                    id
+                }
+            }).then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    });
+};

@@ -57,3 +57,24 @@ exports.obtenerServicio = function (id) {
             })
     });
 };
+
+exports.actualizarServicio = function (id, obj) {
+    return new Promise(function (resolve, reject) {
+        models.servicios_adicionales.update({
+                empresaId: obj.empresaId,
+                nombre: obj.nombre,
+                cantidad: obj.cantidad,
+                precio: obj.precio,
+                descuento: obj.descuento,
+            }, {
+                where: {
+                    id
+                }
+            }).then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    });
+};

@@ -56,3 +56,23 @@ exports.obtenerReserva = function (id) {
             })
     });
 };
+
+exports.actualizarReserva = function (id, obj) {
+    return new Promise(function (resolve, reject) {
+        models.reservas.update({
+                empresaId: obj.empresaId,
+                tarjetaId: obj.tarjetaId,
+                horaInicio: obj.horaInicio,
+                horaSalida: obj.horaSalida,
+            }, {
+                where: {
+                    id
+                }
+            }).then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    });
+};

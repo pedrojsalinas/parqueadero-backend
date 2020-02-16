@@ -54,3 +54,21 @@ exports.obtenerUsuario = function (id) {
             })
     });
 };
+
+exports.actualizarUsuario = function (id, obj) {
+    return new Promise(function (resolve, reject) {
+        models.usuarios.update({
+                ip: obj.ip,
+                tarjetaId: obj.tarjetaId,
+            }, {
+                where: {
+                    id
+                }
+            }).then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    });
+};

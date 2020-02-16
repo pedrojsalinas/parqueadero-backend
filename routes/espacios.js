@@ -55,4 +55,21 @@ router.get('/:espacio_id/eliminar', function (req, res) {
         })
 });
 
+/**
+ * Actualizar espacio
+ */
+router.put('/:espacio_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.espacio_id;
+
+    espacioDomain.actualizarEspacio(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+
 module.exports = router;

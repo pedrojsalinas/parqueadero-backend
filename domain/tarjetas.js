@@ -54,3 +54,21 @@ exports.obtenerTarjeta = function (id) {
             })
     });
 };
+
+exports.actualizarTarjeta = function (id, obj) {
+    return new Promise(function (resolve, reject) {
+        models.tarjetas.update({
+                estado: obj.estado,
+                saldo: obj.saldo,
+            }, {
+                where: {
+                    id
+                }
+            }).then(res => {
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    });
+};

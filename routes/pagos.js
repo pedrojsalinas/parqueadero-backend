@@ -55,5 +55,23 @@ router.get('/:pago_id/eliminar', function (req, res) {
         })
 });
 
+/**
+ * Actualizar pago
+ */
+router.put('/:pago_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.pago_id;
+
+    pagoDomain.actualizarPago(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+
+
 module.exports = router;
 

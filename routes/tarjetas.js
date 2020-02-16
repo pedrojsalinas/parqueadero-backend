@@ -54,5 +54,21 @@ router.get('/:tarjeta_id/eliminar', function (req, res) {
             res.send(err);
         })
 });
+/**
+ * Actualizar tarjeta
+ */
+router.put('/:tarjeta_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.tarjeta_id;
+
+    tarjetaDomain.actualizarTarjeta(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
 
 module.exports = router;

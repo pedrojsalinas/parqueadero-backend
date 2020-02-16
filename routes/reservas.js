@@ -54,4 +54,21 @@ router.get('/:reserva_id/eliminar', function (req, res) {
         })
 });
 
+/**
+ * Actualizar reserva
+ */
+router.put('/:reserva_id/actualizar', function (req, res) {
+    var obj = req.body;
+    var id = req.params.reserva_id;
+
+    reservaDomain.actualizarReserva(id, obj).then(() => {
+            res.send({
+                mensaje: 'Actualizado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+
 module.exports = router;

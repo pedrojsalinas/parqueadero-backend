@@ -9,12 +9,6 @@ module.exports = (sequelize, DataTypes) => {
 
     tarjetas.associate = function (models) {
         models.tarjetas.hasMany(models.pagos);
-        models.tarjetas.belongsTo(models.usuarios, {
-            onDelete: "CASCADE",
-            foreignKey: {
-                allowNull: false
-            }
-        });
     };
 
     return tarjetas;
