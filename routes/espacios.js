@@ -1,17 +1,58 @@
 var express = require('express');
-var models = require('../models');
 var router = express.Router();
+var espacioDomain = require('../domain/espacios');
+
 
 /**
  * Obtener todas las espacios
  */
 router.get('/', function (req, res, next) {
-    models.espacios.findAll({
-    }).then(function (espacios) {
-        res.send({
-            espacios
-        });
-    });
+    espacioDomain.obtenerespacios().then(espacios => {
+            res.send(espacios)
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Obtener espacio
+ */
+router.get('/:espacio_id', function (req, res) {
+    var id = req.params.espacio_id;
+    espacioDomain.obtenerEspacio(id).then(espacio => {
+            res.send(espacio)
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Agregar espacio
+ */
+router.post('/crear', function (req, res) {
+    var espacio = req.body;
+    espacioDomain.agregarEspacio(espacio).then(() => {
+            res.send({
+                mensaje: 'Creado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Eliminar espacio
+ */
+router.get('/:espacio_id/eliminar', function (req, res) {
+    var id = req.params.espacio_id;
+    espacioDomain.eliminarEspacio(id).then(() => {
+            res.send({
+                mensaje: 'Eliminado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
 });
 
 module.exports = router;

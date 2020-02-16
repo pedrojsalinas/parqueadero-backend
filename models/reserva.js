@@ -1,8 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var reservas = sequelize.define('reservas', {
-        empresaId: DataTypes.INTEGER,
-        tarjetaId: DataTypes.INTEGER,
         horaInicio: DataTypes.DATE,
         horaSalida: DataTypes.DATE,
     }, {
@@ -14,7 +12,15 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: {
                 allowNull: false
-            }
+            },
+            as: 'empresa'
+        });
+        models.reservas.belongsTo(models.tarjetas, {
+            onDelete: "CASCADE",
+            foreignKey: {
+                allowNull: false
+            },
+            as: 'tarjeta'
         });
     };
 

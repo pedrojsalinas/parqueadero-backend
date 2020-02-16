@@ -7,5 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false
     });
 
+    usuarios.associate = function (models) {
+        models.usuarios.hasOne(models.tarjetas);
+    };
+    
     return usuarios;
 };

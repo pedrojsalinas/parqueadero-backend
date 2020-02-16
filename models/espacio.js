@@ -1,7 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var espacios = sequelize.define('espacios', {
-        empresaId: DataTypes.INTEGER,
         estado: DataTypes.INTEGER,
         cubierto: DataTypes.INTEGER,
     }, {
@@ -13,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: {
                 allowNull: false
-            }
+            },
+            as: 'empresa'
         });
     };
 

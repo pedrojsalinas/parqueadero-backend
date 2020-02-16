@@ -1,14 +1,57 @@
 var express = require('express');
-var models = require('../models');
 var router = express.Router();
+var servicioDomain = require('../domain/servicios_adicionales');
 
-
+/**
+ * Obtener todas las servicios
+ */
 router.get('/', function (req, res, next) {
-    models.servicios_adicionales.findAll({}).then(function (servicios_adicionales) {
-        res.send({
-            servicios_adicionales
-        });
-    });
+    servicioDomain.obtenerServicios().then(servicios => {
+            res.send(servicios)
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Obtener servicio
+ */
+router.get('/:servicio_id', function (req, res) {
+    var id = req.params.servicio_id;
+    servicioDomain.obtenerServicio(id).then(servicio => {
+            res.send(servicio)
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Agregar servicio
+ */
+router.post('/crear', function (req, res) {
+    var servicio = req.body;
+    servicioDomain.agregarServicio(servicio).then(() => {
+            res.send({
+                mensaje: 'Creado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Eliminar servicio
+ */
+router.get('/:servicio_id/eliminar', function (req, res) {
+    var id = req.params.servicio_id;
+    servicioDomain.eliminarServicio(id).then(() => {
+            res.send({
+                mensaje: 'Eliminado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
 });
 
 module.exports = router;

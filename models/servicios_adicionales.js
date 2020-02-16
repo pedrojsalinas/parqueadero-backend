@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
         cantidad: DataTypes.INTEGER,
         precio: DataTypes.DOUBLE,
         descuento: DataTypes.DOUBLE,
-        empresaId: DataTypes.INTEGER
     }, {
         timestamps: false
     });
@@ -15,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: "CASCADE",
             foreignKey: {
                 allowNull: false
-            }
+            },
+            as: 'empresa'
         });
     };
 

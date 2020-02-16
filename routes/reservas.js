@@ -1,17 +1,57 @@
 var express = require('express');
-var models = require('../models');
 var router = express.Router();
+var reservaDomain = require('../domain/reservas');
 
 /**
  * Obtener todas las reservas
  */
 router.get('/', function (req, res, next) {
-    models.reservas.findAll({
-    }).then(function (reservas) {
-        res.send({
-            reservas
-        });
-    });
+    reservaDomain.obtenerReservas().then(reservas => {
+            res.send(reservas)
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Obtener reserva
+ */
+router.get('/:reserva_id', function (req, res) {
+    var id = req.params.reserva_id;
+    reservaDomain.obtenerReserva(id).then(reserva => {
+            res.send(reserva)
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Agregar reserva
+ */
+router.post('/crear', function (req, res) {
+    var reserva = req.body;
+    reservaDomain.agregarReserva(reserva).then(() => {
+            res.send({
+                mensaje: 'Creado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+/**
+ * Eliminar reserva
+ */
+router.get('/:reserva_id/eliminar', function (req, res) {
+    var id = req.params.reserva_id;
+    reservaDomain.eliminarReserva(id).then(() => {
+            res.send({
+                mensaje: 'Eliminado correctamente.'
+            })
+        })
+        .catch(err => {
+            res.send(err);
+        })
 });
 
 module.exports = router;
