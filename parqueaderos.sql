@@ -1,23 +1,31 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Feb 14, 2020 at 04:56 PM
--- Server version: 5.6.38
--- PHP Version: 7.2.1
+-- Servidor: localhost
+-- Tiempo de generación: 16-02-2020 a las 07:33:17
+-- Versión del servidor: 10.1.34-MariaDB
+-- Versión de PHP: 5.6.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
--- Database: `parqueaderos`
+-- Base de datos: `parqueaderos`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `empresas`
+-- Estructura de tabla para la tabla `empresas`
 --
 
 CREATE TABLE `empresas` (
@@ -33,18 +41,23 @@ CREATE TABLE `empresas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
--- Dumping data for table `empresas`
+-- Volcado de datos para la tabla `empresas`
 --
 
 INSERT INTO `empresas` (`id`, `nombre`, `direccion`, `latitud`, `longitud`, `num_espacios`, `fraccion`, `precio`, `descuento`) VALUES
 (1, 'Parking Mercadillo', 'Mercadillo', '-4.017184', '-79.202588', 20, 'Por hora', 0.5, 2.5),
 (2, 'ParkeaT', 'Sucre', '-4.008707', '-79.202331', 12, 'Por cuarto de hora', 0.25, 3.5),
-(6, 'test', 'test', '123', '123123', 0, 'asdas', 12, 1);
+(6, 'ID 6', 'test', '123', '123123', 0, 'asdas', 22, 1),
+(7, 'test', 'as', 'NaN', 'NaN', 2, 'as', 20, 12),
+(8, 'test', 'as', 'NaN', 'NaN', 2, 'as', 20, 12),
+(10, 'Test api', 'asdas', '1212', 'NaN', 12, 'Das', 12, 1212),
+(12, 'Test api', 'asdas', '1212', 'NaN', 12, 'Das', 12, 1212),
+(13, 'API ', 'asdas', '1212', 'NaN', 12, 'Das', 12, 1212);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `espacios`
+-- Estructura de tabla para la tabla `espacios`
 --
 
 CREATE TABLE `espacios` (
@@ -55,16 +68,16 @@ CREATE TABLE `espacios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `espacios`
+-- Volcado de datos para la tabla `espacios`
 --
 
 INSERT INTO `espacios` (`id`, `empresaId`, `estado`, `cubierto`) VALUES
-(1, 1, 1, 1);
+(1, 2, 10, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pagos`
+-- Estructura de tabla para la tabla `pagos`
 --
 
 CREATE TABLE `pagos` (
@@ -75,16 +88,18 @@ CREATE TABLE `pagos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `pagos`
+-- Volcado de datos para la tabla `pagos`
 --
 
 INSERT INTO `pagos` (`id`, `valor`, `empresaId`, `tarjetaId`) VALUES
-(1, 122, 2, 1);
+(1, 22, 2, 1),
+(9, 666, 2, 2),
+(11, 26, 2, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reservas`
+-- Estructura de tabla para la tabla `reservas`
 --
 
 CREATE TABLE `reservas` (
@@ -98,7 +113,7 @@ CREATE TABLE `reservas` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `servicios_adicionales`
+-- Estructura de tabla para la tabla `servicios_adicionales`
 --
 
 CREATE TABLE `servicios_adicionales` (
@@ -111,16 +126,16 @@ CREATE TABLE `servicios_adicionales` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `servicios_adicionales`
+-- Volcado de datos para la tabla `servicios_adicionales`
 --
 
 INSERT INTO `servicios_adicionales` (`id`, `nombre`, `cantidad`, `precio`, `descuento`, `empresaId`) VALUES
-(2, 'Limpieza', 1, 100, 10, 6);
+(2, 'Limpieza test', 1, 100, 10, 6);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tarjetas`
+-- Estructura de tabla para la tabla `tarjetas`
 --
 
 CREATE TABLE `tarjetas` (
@@ -130,17 +145,17 @@ CREATE TABLE `tarjetas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tarjetas`
+-- Volcado de datos para la tabla `tarjetas`
 --
 
 INSERT INTO `tarjetas` (`id`, `saldo`, `estado`) VALUES
-(1, 10000, 0),
+(1, 10000, 1),
 (2, 500, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuarios`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -150,31 +165,32 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `usuarios`
+-- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `ip`, `tarjetaId`) VALUES
-(1, '12666', 1);
+(1, '126ww66', 1),
+(3, 'asdasd', 1);
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `empresas`
+-- Indices de la tabla `empresas`
 --
 ALTER TABLE `empresas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `espacios`
+-- Indices de la tabla `espacios`
 --
 ALTER TABLE `espacios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `espacios_ibfk_1` (`empresaId`);
 
 --
--- Indexes for table `pagos`
+-- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`id`),
@@ -182,7 +198,7 @@ ALTER TABLE `pagos`
   ADD KEY `pagos_ibfk_2` (`tarjetaId`);
 
 --
--- Indexes for table `reservas`
+-- Indices de la tabla `reservas`
 --
 ALTER TABLE `reservas`
   ADD PRIMARY KEY (`id`),
@@ -190,103 +206,108 @@ ALTER TABLE `reservas`
   ADD KEY `tarjetaId` (`tarjetaId`);
 
 --
--- Indexes for table `servicios_adicionales`
+-- Indices de la tabla `servicios_adicionales`
 --
 ALTER TABLE `servicios_adicionales`
   ADD PRIMARY KEY (`id`),
   ADD KEY `servicios_adicionales_ibfk_1` (`empresaId`);
 
 --
--- Indexes for table `tarjetas`
+-- Indices de la tabla `tarjetas`
 --
 ALTER TABLE `tarjetas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usuarios`
+-- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idTarjeta` (`tarjetaId`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `empresas`
+-- AUTO_INCREMENT de la tabla `empresas`
 --
 ALTER TABLE `empresas`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `espacios`
+-- AUTO_INCREMENT de la tabla `espacios`
 --
 ALTER TABLE `espacios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `pagos`
+-- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `reservas`
+-- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `servicios_adicionales`
+-- AUTO_INCREMENT de la tabla `servicios_adicionales`
 --
 ALTER TABLE `servicios_adicionales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `tarjetas`
+-- AUTO_INCREMENT de la tabla `tarjetas`
 --
 ALTER TABLE `tarjetas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `usuarios`
+-- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `espacios`
+-- Filtros para la tabla `espacios`
 --
 ALTER TABLE `espacios`
   ADD CONSTRAINT `espacios_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `pagos`
+-- Filtros para la tabla `pagos`
 --
 ALTER TABLE `pagos`
   ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `reservas`
+-- Filtros para la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`),
-  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`);
+  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `servicios_adicionales`
+-- Filtros para la tabla `servicios_adicionales`
 --
 ALTER TABLE `servicios_adicionales`
   ADD CONSTRAINT `servicios_adicionales_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `usuarios`
+-- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`);
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`tarjetaId`) REFERENCES `tarjetas` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
