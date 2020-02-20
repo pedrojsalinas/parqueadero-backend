@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 var bodyParser = require('body-parser')
 var empresasRouter = require('./routes/empresas');
 var tarjetasRouter = require('./routes/tarjetas');
@@ -20,6 +21,8 @@ app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+
+app.use(cors());
 
 // parse application/json
 app.use(bodyParser.json())
