@@ -6,12 +6,12 @@ var logger = require('morgan');
 const cors = require('cors');
 var bodyParser = require('body-parser')
 var empresasRouter = require('./lib/frameworks_drivers/webserver/empresas');
-var tarjetasRouter = require('./routes/tarjetas');
-var serviciosRouter = require('./routes/servicios_adicionales');
-var pagosRouter = require('./routes/pagos');
-var usuariosRouter = require('./routes/usuarios');
-var reservasRouter = require('./routes/reservas');
-var espaciosRouter = require('./routes/espacios');
+var tarjetasRouter = require('./lib/frameworks_drivers/webserver/tarjetas');
+var serviciosRouter = require('./lib/frameworks_drivers/webserver/servicios_adicionales');
+var pagosRouter = require('./lib/frameworks_drivers/webserver/pagos');
+var usuariosRouter = require('./lib/frameworks_drivers/webserver/usuarios');
+var reservasRouter = require('./lib/frameworks_drivers/webserver/reservas');
+var espaciosRouter = require('./lib/frameworks_drivers/webserver/espacios');
 
 var app = express();
 // view engine setup
